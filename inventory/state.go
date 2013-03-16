@@ -36,7 +36,7 @@ const (
 )
 
 func NewState() State {
-	return Inventory{
+	return State{
 		Time:       time.Now(),
 		Resonators: make(Resonators, MaxResonator),
 		Shields:    make(Shields, MaxShield),
