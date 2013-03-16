@@ -2,7 +2,9 @@ package template
 
 import (
 	"html/template"
-	"io"
+	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -13,19 +15,20 @@ type manager struct {
 
 var templates = map[string]*manager{}
 
-func WriteFooter(w io.Writer, ctx *Context) {
+func WriteFooter(w http.ResponseWriter, ctx *Context) {
 	w.Write([]byte("FOOTER\n"))
 }
 
-func WriteHeader(w io.Writer, ctx *Context) error {
+func WriteHeader(w http.ResponseWriter, ctx *Context) error {
 	w.Write([]byte("HEADER\n"))
 	return Write(w, ctx, "header", "header.html")
 }
 
-func Write(w io.Writer, ctx *Context, name string, files ...string) error {
+func Write(w http.ResponseWriter, ctx *Context, name string, files ...string) error {
 	w.Write([]byte("WRITER\n"))
 	verifyCurrent(name, files...)
-	return templates[name].Template.Execute(w, ctx)
+	t := templates[name]
+	return t.Template.Execute(w, ctx)
 }
 
 func verifyCurrent(name string, files ...string) (err error) {
@@ -36,7 +39,23 @@ func verifyCurrent(name string, files ...string) (err error) {
 		}
 		templates[name] = t
 	}
-	//_, err = t.Template.ParseFiles(files...)
-	_, err = t.Template.Parse("<!DOCTYPE html><html><head><title>{{.Title}}</title></head><body>hi")
+	reparse := false
+	filenames := make([]string, len(files))
+	for _, file := range files {
+		filename := filepath.Join("assets", "templates", file)
+		in, err := os.Stat(filename)
+		if err != nil {
+			return err
+		}
+		if mtime := in.ModTime(); t.LastModified.Before(mtime) {
+			reparse = true
+			t.LastModified = mtime
+		}
+		filenames = append(filenames, filename)
+	}
+	if reparse {
+		_, err = t.Template.ParseFiles(filenames...)
+		//_, err = t.Template.Parse("<!DOCTYPE html><html><head><title>{{.Title}}</title><<body>hi")
+	}
 	return
 }
