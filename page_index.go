@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gorilla/context"
+	"github.com/jbaikge/ingress-inventory/template"
 	"net/http"
 )
 
@@ -11,6 +10,10 @@ func init() {
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
-	context.Set(r, "title", "This is a test title")
-	fmt.Fprintln(w, "...")
+	ctx := &template.Context{
+		Title:       "Ingress Inventory",
+		Description: "Track your inventory",
+	}
+	template.WriteHeader(w, ctx)
+	template.WriteFooter(w, ctx)
 }
