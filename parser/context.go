@@ -1,4 +1,4 @@
-package template
+package parser
 
 import (
 	"github.com/jbaikge/ingress-inventory/profile"
