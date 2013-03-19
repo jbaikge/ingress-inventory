@@ -47,7 +47,7 @@ func NewState() State {
 }
 
 func (s State) Level() int {
-	for l, max := range levels {
+	for i, max := range levels {
 		if max > s.AP {
 			return i + 1
 		}
