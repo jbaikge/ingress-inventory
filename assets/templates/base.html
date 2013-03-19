@@ -1,13 +1,13 @@
-{{define "Header"}}
-<!DOCTYPE html>
+{{define "Header"}}<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>{{.Title}}</title>
+	<title>{{if .Title}}{{ .Title }} - {{end}}Ingressentory</title>
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 {{end}}
+
 {{define "Footer"}}
 </body>
 </html>
