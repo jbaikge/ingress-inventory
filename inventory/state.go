@@ -35,6 +35,8 @@ const (
 	MaxXMP       = 8
 )
 
+var levels = []int{10000, 20000, 40000, 70000, 150000, 300000, 600000, 1200000}
+
 func NewState() State {
 	return State{
 		Time:       time.Now(),
@@ -42,4 +44,13 @@ func NewState() State {
 		Shields:    make(Shields, MaxShield),
 		XMPs:       make(XMPs, MaxXMP),
 	}
+}
+
+func (s State) Level() int {
+	for l, max := range levels {
+		if max > s.AP {
+			return i + 1
+		}
+	}
+	return 0
 }
