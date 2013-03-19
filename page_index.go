@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/jbaikge/ingress-inventory/template"
+	"github.com/jbaikge/ingress-inventory/parser"
+	"log"
 	"net/http"
 )
 
@@ -10,10 +11,11 @@ func init() {
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
-	ctx := &template.Context{
+	ctx := &parser.Context{
 		Title:       "Ingress Inventory",
 		Description: "Track your inventory",
 	}
-	template.WriteHeader(w, ctx)
-	template.WriteFooter(w, ctx)
+	if err := parser.Render(w, ctx, "index.html"); err != nil {
+		log.Println(err)
+	}
 }
