@@ -1,5 +1,19 @@
 {{template "Header" .}}
-<div>
-	I am index.html
-</div>
+	<div class="row-fluid">
+		<form method="post" action="/inventory/update">
+			<fieldset>
+				<legend>Inventory Update</legend>
+				<label for="AP">AP</label>
+				<input name="AP" type="number" min="0">
+
+				<label for="Resonators.0">L1 Resonators</label>
+				<div class="input-prepend input-append">
+					<button type="button" class="btn">-</button>
+					<input class="input-mini" name="Resonators.0" type="number" min="0" max="2000">
+					<button type="button" class="btn">+</button>
+				</div>
+
+			</fieldset>
+		</form>
+	</div>
 {{template "Footer" .}}
