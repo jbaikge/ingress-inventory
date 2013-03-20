@@ -6,12 +6,15 @@
 				<label for="AP">AP</label>
 				<input name="AP" type="number" min="0">
 
-				<label for="Resonators.0">L1 Resonators</label>
+{{$state := .Profile.Inventory.CurrentState}}
+{{range $i, $count := $state.Resonators}}
+				<label for="Resonators{{$i}}">L{{add $i 1}} Resonators</label>
 				<div class="input-prepend input-append">
 					<button type="button" class="btn">-</button>
-					<input class="input-mini" name="Resonators.0" type="number" min="0" max="2000">
+					<input class="input-mini" id="Resonators{{$i}}" name="Resonators.{{$i}}" type="number" min="0" max="2000" value="{{$count}}">
 					<button type="button" class="btn">+</button>
 				</div>
+{{end}}
 
 			</fieldset>
 		</form>
