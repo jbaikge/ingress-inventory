@@ -41,7 +41,7 @@ func NewState() State {
 	return State{
 		Time:       time.Now(),
 		Resonators: make(Resonators, MaxResonator),
-		Shields:    make(Shields, MaxShield),
+		Shields:    make(Shields, MaxShield+1),
 		XMPs:       make(XMPs, MaxXMP),
 	}
 }
