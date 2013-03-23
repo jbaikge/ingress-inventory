@@ -35,7 +35,7 @@ const (
 	MaxXMP       = 8
 )
 
-var levels = []int{10000, 20000, 40000, 70000, 150000, 300000, 600000, 1200000}
+var Levels = []int{10000, 20000, 40000, 70000, 150000, 300000, 600000, 1200000}
 
 func NewState() State {
 	return State{
@@ -47,7 +47,7 @@ func NewState() State {
 }
 
 func (s State) Level() int {
-	for i, max := range levels {
+	for i, max := range Levels {
 		if max > s.AP {
 			return i + 1
 		}
