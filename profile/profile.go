@@ -1,13 +1,30 @@
 package profile
 
 import (
+	"code.google.com/p/goauth2/oauth"
+	"encoding/gob"
 	"github.com/jbaikge/ingress-inventory/inventory"
-	"labix.org/v2/mgo/bson"
 )
 
 type Profile struct {
-	Id        bson.ObjectId `bson:"_id"`
-	AuthToken string
-	Username  string
-	inventory.Inventory
+	Id          string
+	Token       *oauth.Token
+	DisplayName string
+	Username    string
+	Url         string
+	Avatar      string
+	Faction     Faction
+	Inventory   inventory.Inventory
+}
+
+type Faction string
+
+const (
+	Resistance  Faction = "RESISTANCE"
+	Enlightened Faction = "ENLIGHTENED"
+)
+
+func init() {
+	// Register with gob so we can put the profile info in the cookie
+	gob.Register(&Profile{})
 }
