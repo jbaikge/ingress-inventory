@@ -8,14 +8,15 @@ import (
 )
 
 type Profile struct {
-	Id        string
-	Token     *oauth.Token
-	RealName  string
-	Username  string
-	Url       string
-	Avatar    string
-	Faction   faction.Faction
-	Inventory inventory.Inventory
+	Id              string
+	Token           *oauth.Token
+	DisplayName     string
+	DisplayUsername string
+	Username        string
+	Url             string
+	Avatar          string
+	Faction         faction.Faction
+	Inventory       inventory.Inventory
 }
 
 func init() {
