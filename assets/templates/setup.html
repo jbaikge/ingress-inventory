@@ -1,5 +1,35 @@
 {{template "Header" .}}
-	<div class="row-fluid">
-		<a href="/login">Login</a>
-	</div>
+	<form method="post" action="/setup">
+		<div class="row-fluid">
+			<div class="span6">
+				Ingress Faction
+				<label>
+					<input type="radio" name="Faction" value="ENLIGHTENED"{{if .Profile.Faction == "ENLIGHTENED"}} checked{{end}}>
+					Enlightened
+				</label>
+				<label>
+					<input type="radio" name="Faction" value="RESISTANCE"{{if .Profile.Faction == "RESISTANCE"}} checked{{end}}>
+					Resistance
+				</label>
+			</div>
+			<div class="span6">
+				Ingress Username
+				<input type="text" name="DisplayUsername" value="{{.Profile.DisplayUsername}}">
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				{{i, c := range .Communities}}
+				<label>
+					<input type="checkbox" name="Communities.{{$i}}" value="{{$c.Id}}">
+					{{$c.Name}}
+				</label>
+				<a href="{{$c.Url}}" target="_blank">[link]</a>
+				{{end}}
+			</div>
+		</div>
+		<div class="row-fluid">
+			<button type="submit">Continue</button>
+		</div>
+	</form>
 {{template "Footer" .}}
