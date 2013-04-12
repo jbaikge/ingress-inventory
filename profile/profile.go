@@ -7,14 +7,14 @@ import (
 )
 
 type Profile struct {
-	Id          string
-	Token       *oauth.Token
-	DisplayName string
-	Username    string
-	Url         string
-	Avatar      string
-	Faction     Faction
-	Inventory   inventory.Inventory
+	Id        string
+	Token     *oauth.Token
+	RealName  string
+	Username  string
+	Url       string
+	Avatar    string
+	Faction   Faction
+	Inventory inventory.Inventory
 }
 
 type Faction string
