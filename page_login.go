@@ -24,32 +24,51 @@ var config = &oauth.Config{
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
+	// TODO Establish auth code here; store in cookie
 	http.Redirect(w, r, config.AuthCodeURL("foo"), http.StatusFound)
 }
 
 func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 	transport := &oauth.Transport{Config: config}
+	// TODO Verify r.FormValue("code") matches code found in cookie
 	token, err := transport.Exchange(r.FormValue("code"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
 	}
 
 	service, err := plus.New(transport.Client())
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
 	}
 
 	person, err := service.People.Get("me").Do()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
 	}
 
-	p := &profile.Profile{
-		Id:          person.Id,
-		Token:       token,
-		DisplayName: person.DisplayName,
-		Url:         person.Url,
-		Avatar:      person.Image.Url,
+	p, err := profile.Fetch(person.Id)
+	if err == profile.NotFound {
+		p = &profile.Profile{
+			Id:       person.Id,
+			Token:    token,
+			RealName: person.DisplayName,
+			Url:      person.Url,
+			Avatar:   person.Image.Url,
+		}
+	} else if err != nil {
+		http.Redirect(w, r, "/profileNotFound", http.StatusTemporaryRedirect)
+		return
 	}
+
 	log.Printf("%+v", p)
+
+	// TODO shove profile into cookie right here.
+
+	http.Redirect(w, r, "/setupProfile", http.StatusTemporaryRedirect)
 }
