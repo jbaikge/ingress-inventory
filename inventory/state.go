@@ -7,10 +7,11 @@ import (
 type State struct {
 	Time time.Time
 	AP   int
+	Mods
+	PortalKeys
+	PowerCubes
 	Resonators
 	XMPs
-	Shields
-	PortalKeys
 }
 
 type PortalKeys int
@@ -19,30 +20,32 @@ type Resonators []int
 
 type XMPs []int
 
-type Shields []int
+type Mods []Rarity
 
-type ShieldType int
+type Rarity int
 
 const (
-	VeryCommon ShieldType = iota
+	VeryCommon Rarity = iota
 	Rare
 	VeryRare
 )
 
 const (
-	MaxResonator = 8
-	MaxShield    = VeryRare
-	MaxXMP       = 8
+	NumMod       = VeryRare + 1
+	NumPowerCube = 8
+	NumResonator = 8
+	NumXMP       = 8
 )
 
-var Levels = []int{10000, 20000, 40000, 70000, 150000, 300000, 600000, 1200000}
+var Levels = []int{1e4, 2e4, 4e4, 7e4, 15e4, 3e5, 6e5, 12e5}
 
 func NewState() State {
 	return State{
 		Time:       time.Now(),
-		Resonators: make(Resonators, MaxResonator),
-		Shields:    make(Shields, MaxShield+1),
-		XMPs:       make(XMPs, MaxXMP),
+		Resonators: make(Resonators, NumResonator),
+		Resonators: make(Resonators, NumResonator),
+		Mods:       make(Mods, NumMod),
+		XMPs:       make(XMPs, NumXmp),
 	}
 }
 
