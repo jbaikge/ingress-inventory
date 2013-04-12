@@ -16,6 +16,8 @@ type State struct {
 
 type PortalKeys int
 
+type PowerCubes []int
+
 type Resonators []int
 
 type XMPs []int
@@ -42,10 +44,10 @@ var Levels = []int{1e4, 2e4, 4e4, 7e4, 15e4, 3e5, 6e5, 12e5}
 func NewState() State {
 	return State{
 		Time:       time.Now(),
-		Resonators: make(Resonators, NumResonator),
+		PowerCubes: make(PowerCubes, NumPowerCube),
 		Resonators: make(Resonators, NumResonator),
 		Mods:       make(Mods, NumMod),
-		XMPs:       make(XMPs, NumXmp),
+		XMPs:       make(XMPs, NumXMP),
 	}
 }
 
