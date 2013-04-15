@@ -7,5 +7,6 @@ import (
 var NotFound = errors.New("Profile not found")
 
 func Fetch(id string) (p *Profile, err error) {
+	err = NotFound
 	return
 }
