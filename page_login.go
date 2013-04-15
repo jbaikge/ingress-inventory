@@ -43,6 +43,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 	var code string
 	var err error
+
 	// Grab Code from cookie set in HandleLogin
 	if cookie, err := r.Cookie("Code"); err == nil {
 		if err = sCookie.Decode(cookie.Name, cookie.Value, &code); err != nil {
@@ -53,6 +54,7 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/cannotGetCookie", http.StatusTemporaryRedirect)
 		return
 	}
+
 	// Exchange information with OAuth
 	transport := &oauth.Transport{Config: config}
 	token, err := transport.Exchange(r.FormValue("code"))
@@ -90,9 +92,17 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("%+v", p)
-
-	// TODO shove profile into cookie right here.
+	encoded, err := sCookie.Encode("Profile", p)
+	if err != nil {
+		log.Print(err)
+		http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:  "Profile",
+		Value: encoded,
+		Path:  "/",
+	})
 
 	http.Redirect(w, r, "/setupProfile", http.StatusTemporaryRedirect)
 }
