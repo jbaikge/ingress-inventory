@@ -7,8 +7,9 @@ import (
 )
 
 func init() {
-	router.HandleFunc("/profileNotFound", HandleTrouble)
+	router.HandleFunc("/cannotGetCookie", HandleTrouble)
 	router.HandleFunc("/cannotSetCookie", HandleTrouble)
+	router.HandleFunc("/profileNotFound", HandleTrouble)
 }
 
 func HandleTrouble(w http.ResponseWriter, r *http.Request) {
