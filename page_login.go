@@ -3,6 +3,7 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"code.google.com/p/google-api-go-client/plus/v1"
+	"github.com/gorilla/securecookie"
 	"github.com/jbaikge/ingress-inventory/profile"
 	"log"
 	"net/http"
@@ -24,13 +25,36 @@ var config = &oauth.Config{
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	// TODO Establish auth code here; store in cookie
-	http.Redirect(w, r, config.AuthCodeURL("foo"), http.StatusFound)
+	code := string(securecookie.GenerateRandomKey(16))
+	encoded, err := sCookie.Encode("Code", code)
+	if err != nil {
+		log.Print(err)
+		http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:  "Code",
+		Value: encoded,
+		Path:  "/",
+	})
+	http.Redirect(w, r, config.AuthCodeURL(code), http.StatusFound)
 }
 
 func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
+	var code string
+	var err error
+	// Grab Code from cookie set in HandleLogin
+	if cookie, err := r.Cookie("Code"); err == nil {
+		if err = sCookie.Decode(cookie.Name, cookie.Value, &code); err != nil {
+			log.Print(err)
+		}
+	}
+	if code == "" {
+		http.Redirect(w, r, "/cannotGetCookie", http.StatusTemporaryRedirect)
+		return
+	}
+	// Exchange information with OAuth
 	transport := &oauth.Transport{Config: config}
-	// TODO Verify r.FormValue("code") matches code found in cookie
 	token, err := transport.Exchange(r.FormValue("code"))
 	if err != nil {
 		log.Println(err)
