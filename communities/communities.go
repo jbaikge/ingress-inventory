@@ -5,15 +5,20 @@ import (
 )
 
 type Community struct {
-	Type faction.Faction
-	Name string
-	Url  string
+	Faction faction.Faction
+	Name    string
+	Url     string
 }
 
 var Communities = []Community{
 	Community{
-		Type: faction.Resistance,
-		Name: "DMV Resistance",
-		Url: 
-		},
+		Faction: faction.Resistance,
+		Name:    "DMV Resistance",
+		Url:     "https://plus.google.com/communities/103349576921336760265",
+	},
+	Community{
+		Faction: faction.Enlightened,
+		Name:    "DMV Resistance",
+		Url:     "https://plus.google.com/communities/107604547228374598745",
+	},
 }
