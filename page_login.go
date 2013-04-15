@@ -3,11 +3,11 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"code.google.com/p/google-api-go-client/plus/v1"
-	"github.com/gorilla/securecookie"
 	"github.com/jbaikge/ingress-inventory/profile"
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func init() {
@@ -25,7 +25,7 @@ var config = &oauth.Config{
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	code := string(securecookie.GenerateRandomKey(16))
+	code := time.Now().Format(time.RFC3339Nano)
 	encoded, err := sCookie.Encode("Code", code)
 	if err != nil {
 		log.Print(err)
