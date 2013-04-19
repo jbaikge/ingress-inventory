@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/jbaikge/ingress-inventory/communities"
 	"github.com/jbaikge/ingress-inventory/parser"
 	"github.com/jbaikge/ingress-inventory/profile"
-
 	"log"
 	"net/http"
 )
@@ -20,6 +20,7 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 			log.Print(err)
 		}
 	}
+	// Make sure we got the profile out of the cookie
 	if p.Id == "" {
 		http.Redirect(w, r, "/cannotGetCookie", http.StatusTemporaryRedirect)
 		return
@@ -29,7 +30,13 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 		Title:       "Setup Your Account",
 		Description: "Establish your account details",
 		Profile:     p,
+		Extra: struct {
+			Communities []communities.Community
+		}{
+			communities.All(),
+		},
 	}
+
 	if err := parser.Render(w, ctx, "setup.html"); err != nil {
 		log.Println(err)
 	}
