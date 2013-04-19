@@ -3,7 +3,7 @@ package profile
 import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/gob"
-	"github.com/jbaikge/ingress-inventory/faction"
+	"github.com/jbaikge/ingress-inventory/communities"
 	"github.com/jbaikge/ingress-inventory/inventory"
 )
 
@@ -15,7 +15,7 @@ type Profile struct {
 	Username        string
 	Url             string
 	Avatar          string
-	Faction         faction.Faction
+	Communities     []communities.Community
 	Inventory       inventory.Inventory
 }
 
