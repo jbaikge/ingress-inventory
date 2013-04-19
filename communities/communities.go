@@ -25,5 +25,7 @@ var Communities = []Community{
 }
 
 func All() []Community {
-	return Communities
+	c := make([]Community, len(Communities))
+	copy(c, Communities)
+	return c
 }
