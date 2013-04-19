@@ -8,4 +8,5 @@ type Context struct {
 	Title       string
 	Description string
 	Profile     profile.Profile
+	Extra       interface{}
 }
