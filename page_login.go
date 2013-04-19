@@ -104,5 +104,5 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 		Path:  "/",
 	})
 
-	http.Redirect(w, r, "/setupProfile", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
 }

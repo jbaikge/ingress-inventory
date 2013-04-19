@@ -10,20 +10,9 @@ import (
 
 func init() {
 	router.HandleFunc("/setup", HandleSetup)
-	router.HandleFunc("/setupProfile", HandleSetupProfile)
 }
 
 func HandleSetup(w http.ResponseWriter, r *http.Request) {
-	ctx := &parser.Context{
-		Title:       "Setup Your Account",
-		Description: "Connect your account with Google and ",
-	}
-	if err := parser.Render(w, ctx, "setup.html"); err != nil {
-		log.Println(err)
-	}
-}
-
-func HandleSetupProfile(w http.ResponseWriter, r *http.Request) {
 	// Grab Profile from cookie set in HandleLoginOAuth
 	p := profile.Profile{}
 	if cookie, err := r.Cookie("Profile"); err == nil {
