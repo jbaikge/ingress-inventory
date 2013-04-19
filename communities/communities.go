@@ -5,9 +5,10 @@ import (
 )
 
 type Community struct {
-	Id   bson.ObjectId `bson:"_id"`
-	Name string
-	Url  string
+	Id       bson.ObjectId `bson:"_id"`
+	Name     string
+	Url      string
+	Selected bool `bson:"-"`
 }
 
 var Communities = []Community{
