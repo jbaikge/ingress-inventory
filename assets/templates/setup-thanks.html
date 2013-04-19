@@ -1,0 +1,14 @@
+{{template "Header" .}}
+	<div class="row-fluid">
+		<div class="hero-unit">
+			<h1><img src="{{.Profile.Avatar}}" class="img-polaroid"> {{.Profile.DisplayName}}</h1>
+			<p class="lead">
+				Thank you for registering! Check back soon!
+			</p>
+			<p>
+				Your account is currently undergoing verification. Approvals may
+				take up to 48 hours.
+			</p>
+		</div>
+	</div>
+{{template "Footer" .}}

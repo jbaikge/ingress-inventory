@@ -1,8 +1,12 @@
 {{template "Header" .}}
 	<div class="row-fluid">
 		<div class="hero-unit">
-			<h1>Setup Your Profile</h1>
-			<p>Please provide the following information to finalize your profile. You will not gain entry until an administrator approves your account. Approvals may take up to 48 hours.</p>
+			<h1><img src="{{.Profile.Avatar}}" class="img-polaroid"> {{.Profile.DisplayName}}</h1>
+			<p>
+				Please provide the following information to finalize your
+				profile. You will not gain entry until an administrator
+				approves your account. Approvals may take up to 48 hours.
+			</p>
 		</div>
 	</div>
 
@@ -12,28 +16,33 @@
 			<div class="row-fluid">
 				<div class="span6">
 					<h2>Ingress Username</h2>
-					<p class="help-block">Be sure the username you provide here matches your Ingress username.</p>
-					<div class="input-prepend">
-						<span class="add-on">Username</span>
-						<input type="text" name="DisplayUsername" value="{{.Profile.DisplayUsername}}">
+					<span class="help-block">Be sure the username you provide here matches your Ingress username.</span>
+					<div class="control-group{{if .Extra.Errors.DisplayUsername}} error{{end}}">
+						<div class="input-prepend">
+							<span class="add-on">Username</span>
+							<input type="text" name="DisplayUsername" value="{{.Profile.DisplayUsername}}">
+						</div>
+						<span class="help-block">{{.Extra.Errors.DisplayUsername}}</span>
 					</div>
 				</div>
 				<div class="span6">
 					<h2>Ingress Communities</h2>
-					<p class="help-block">Select the Google+ Communities you are either currently involved in or would like to join. The moderators of each selected community will receive a notification to approve your account.</p>
-					{{range .Extra.Communities}}
-					<div class="controls controls-row">
-						<label class="span10">
-							<input type="checkbox" name="Communities" value="{{.Id.Hex}}">
-							{{.Name}}
-						</label>
-						<div class="span2">
-							<a href="{{.Url}}" target="_blank">[link]</a>
+					<span class="help-block">Select the Google+ Communities you are either currently involved in or would like to join. The moderators of each selected community will receive a notification to approve your account.</span>
+					<div class="control-group{{if .Extra.Errors.Communities}} error{{end}}">
+						<span class="help-block">{{.Extra.Errors.Communities}}</span>
+						{{range $i, $c := .Profile.Communities}}
+						<div class="controls controls-row">
+							<label class="span10">
+								<input type="checkbox" name="Communities.{{$i}}.Selected" value="1"{{if .Selected}} checked{{end}}>
+								{{.Name}}
+							</label>
+							<div class="span2">
+								<a href="{{.Url}}" target="_blank">[link]</a>
+							</div>
 						</div>
+						{{end}}
 					</div>
-					{{end}}
-
-					<p class="help-block">If you do not see your community listed above, please contact [some email address] with the community name and a link to a moderator's profile to have your community added</p>
+					<span class="help-block">If you do not see your community listed above, please contact [some email address] with the community name and a link to a moderator's profile to have your community added</span>
 				</div>
 			</div>
 			<div class="row-fluid">
