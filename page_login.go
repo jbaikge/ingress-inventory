@@ -81,11 +81,11 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 	p, err := profile.Fetch(person.Id)
 	if err == profile.NotFound {
 		p = &profile.Profile{
-			Id:       person.Id,
-			Token:    token,
-			RealName: person.DisplayName,
-			Url:      person.Url,
-			Avatar:   person.Image.Url,
+			Id:          person.Id,
+			Token:       token,
+			DisplayName: person.DisplayName,
+			Url:         person.Url,
+			Avatar:      person.Image.Url,
 		}
 	} else if err != nil {
 		http.Redirect(w, r, "/profileNotFound", http.StatusTemporaryRedirect)
