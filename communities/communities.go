@@ -1,24 +1,28 @@
 package communities
 
 import (
-	"github.com/jbaikge/ingress-inventory/faction"
+	"labix.org/v2/mgo/bson"
 )
 
 type Community struct {
-	Faction faction.Faction
-	Name    string
-	Url     string
+	Id   bson.ObjectId `bson:"_id"`
+	Name string
+	Url  string
 }
 
 var Communities = []Community{
 	Community{
-		Faction: faction.Resistance,
-		Name:    "DMV Resistance",
-		Url:     "https://plus.google.com/communities/103349576921336760265",
+		Id:   bson.ObjectIdHex("517097eeca1d531967000001"),
+		Name: "DMV Resistance",
+		Url:  "https://plus.google.com/communities/103349576921336760265",
 	},
 	Community{
-		Faction: faction.Enlightened,
-		Name:    "DMV Resistance",
-		Url:     "https://plus.google.com/communities/107604547228374598745",
+		Id:   bson.ObjectIdHex("517097eeca1d531967000002"),
+		Name: "HR Resistance",
+		Url:  "https://plus.google.com/communities/107799543110624446726",
 	},
+}
+
+func All() []Community {
+	return Communities
 }
