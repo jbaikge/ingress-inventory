@@ -18,9 +18,10 @@ var (
 
 func init() {
 	log.SetFlags(log.Lshortfile)
-	hashKey = securecookie.GenerateRandomKey(64)
-	// 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256.
-	//blockKey = securecookie.GenerateRandomKey(32)
+	hashKey = []byte(os.Getenv("HASHKEY"))
+	if bKey := os.Getenv("BLOCKKEY"); bKey != "" {
+		blockKey = []byte(bKey)
+	}
 	sCookie = securecookie.New(hashKey, blockKey)
 }
 
