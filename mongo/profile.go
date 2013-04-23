@@ -3,8 +3,23 @@ package mongo
 import (
 	"github.com/jbaikge/ingress-inventory/communities"
 	"github.com/jbaikge/ingress-inventory/profile"
+	"labix.org/v2/mgo/bson"
 	"strings"
 )
+
+func UsernameRegistered(username string) (reg bool, err error) {
+	if !Connected() {
+		return false, ErrNotConnected
+	}
+
+	n, err := c.Profile.Find(bson.M{"username": strings.ToLower(username)}).Count()
+	if err != nil {
+		return
+	}
+
+	reg = n > 0
+	return
+}
 
 func SaveProfile(p *profile.Profile) (err error) {
 	if !Connected() {
