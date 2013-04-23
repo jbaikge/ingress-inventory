@@ -62,6 +62,17 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if len(e.Errors) == 0 {
+			encoded, err := sCookie.Encode("Profile", p)
+			if err != nil {
+				log.Print(err)
+				http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
+				return
+			}
+			http.SetCookie(w, &http.Cookie{
+				Name:  "Profile",
+				Value: encoded,
+				Path:  "/",
+			})
 			http.Redirect(w, r, "/setupThanks", http.StatusTemporaryRedirect)
 			return
 		}
