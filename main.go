@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/securecookie"
+	db "github.com/jbaikge/ingress-inventory/mongo"
 	"log"
 	"net/http"
 	"os"
@@ -26,6 +27,10 @@ func init() {
 }
 
 func main() {
+	if err := db.Connect(os.Getenv("DBHOST"), os.Getenv("DBNAME")); err != nil {
+		log.Fatal(err)
+	}
+
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stderr, router))
 
 	log.Printf("Listening on :%s", os.Getenv("PORT"))
