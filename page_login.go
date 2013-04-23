@@ -81,7 +81,7 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 	p, err := profile.Fetch(person.Id)
 	if err == profile.NotFound {
 		p = &profile.Profile{
-			Id:          person.Id,
+			GoogleId:    person.Id,
 			Token:       token,
 			DisplayName: person.DisplayName,
 			Url:         person.Url,

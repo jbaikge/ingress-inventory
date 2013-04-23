@@ -5,10 +5,12 @@ import (
 	"encoding/gob"
 	"github.com/jbaikge/ingress-inventory/communities"
 	"github.com/jbaikge/ingress-inventory/inventory"
+	"labix.org/v2/mgo/bson"
 )
 
 type Profile struct {
-	Id              string
+	Id              bson.ObjectId `bson:"_id,omitempty"`
+	GoogleId        string
 	Token           *oauth.Token
 	DisplayName     string
 	DisplayUsername string
