@@ -13,6 +13,13 @@
 	<form method="post" action="/setup">
 		<fieldset>
 			<legend>Setup Your Profile</legend>
+			{{.Extra.Errors.Overall}}
+			<div class="row-fluid">
+				<div class="span12 error">
+					<span class="help-block">There was an error saving your profile: {{.Extra.Errors.Overall}}</span>
+				</div>
+			</div>
+			{{end}}
 			<div class="row-fluid">
 				<div class="span6">
 					<h2>Ingress Username</h2>
