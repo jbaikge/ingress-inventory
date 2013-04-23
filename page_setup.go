@@ -55,8 +55,10 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 			e.Errors["Communities"] = err
 		}
 		// Insert new profile
-		if err := db.SaveProfile(&p); err != nil {
-			e.Errors["Overall"] = err.Error()
+		if len(e.Errors) == 0 {
+			if err := db.SaveProfile(&p); err != nil {
+				e.Errors["Overall"] = err.Error()
+			}
 		}
 
 		if len(e.Errors) == 0 {
