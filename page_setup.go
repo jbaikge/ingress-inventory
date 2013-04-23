@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gorilla/schema"
 	"github.com/jbaikge/ingress-inventory/communities"
+	db "github.com/jbaikge/ingress-inventory/mongo"
 	"github.com/jbaikge/ingress-inventory/parser"
 	"github.com/jbaikge/ingress-inventory/profile"
 	"log"
@@ -47,25 +48,14 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 		if err := setupDecoder.Decode(&p, r.PostForm); err != nil {
 			log.Println(err)
 		}
-		// Determine any errors
-		if p.DisplayUsername == "" {
-			e.Errors["DisplayUsername"] = "Please provide your username"
+		if err := validateUsername(&p); err != "" {
+			e.Errors["DisplayUsername"] = err
 		}
-		// TODO add DB check
-		if false {
-			e.Errors["DisplayUsername"] = "Username already registered"
+		if err := validateCommunities(&p); err != "" {
+			e.Errors["Communities"] = err
 		}
-		var onePicked bool
-		for _, c := range p.Communities {
-			if c.Selected {
-				onePicked = true
-			}
-		}
-		if !onePicked {
-			e.Errors["Communities"] = "Please select at least one community"
-		}
+
 		if len(e.Errors) == 0 {
-			// TODO save profile to DB
 			http.Redirect(w, r, "/setupThanks", http.StatusTemporaryRedirect)
 			return
 		}
@@ -107,4 +97,33 @@ func newExtra() (e setupExtra) {
 	return setupExtra{
 		Errors: map[string]string{},
 	}
+}
+
+func validateUsername(p *profile.Profile) (e string) {
+	if p.DisplayUsername == "" {
+		return "Please provide your username"
+	}
+
+	reg, err := db.UsernameRegistered(p.DisplayUsername)
+	if err != nil {
+		log.Print(err)
+		return "Could not verify username"
+	}
+	if reg {
+		return "Username already registered"
+	}
+	return
+}
+
+func validateCommunities(p *profile.Profile) (e string) {
+	var onePicked bool
+	for _, c := range p.Communities {
+		if c.Selected {
+			onePicked = true
+		}
+	}
+	if !onePicked {
+		return "Please select at least one community"
+	}
+	return
 }
