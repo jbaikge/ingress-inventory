@@ -30,7 +30,7 @@ func HandleSetup(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// Make sure we got the profile out of the cookie
-	if p.Id == "" {
+	if p.GoogleId == "" {
 		http.Redirect(w, r, "/cannotGetCookie", http.StatusTemporaryRedirect)
 		return
 	}
