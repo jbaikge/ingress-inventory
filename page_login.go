@@ -3,6 +3,7 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"code.google.com/p/google-api-go-client/plus/v1"
+	"github.com/jbaikge/ingress-inventory/mongo"
 	"github.com/jbaikge/ingress-inventory/profile"
 	"log"
 	"net/http"
@@ -78,31 +79,47 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	p, err := profile.Fetch(person.Id)
-	if err == profile.NotFound {
+	// Try to pull profile from DB
+	p := &profile.Profile{
+		GoogleId: person.Id,
+	}
+	switch err := mongo.FetchProfile(p); err {
+	case profile.NotFound:
 		p = &profile.Profile{
-			GoogleId:    person.Id,
 			Token:       token,
 			DisplayName: person.DisplayName,
 			Url:         person.Url,
 			Avatar:      person.Image.Url,
 		}
-	} else if err != nil {
+		encoded, err := sCookie.Encode("Profile", p)
+		if err != nil {
+			log.Print(err)
+			http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
+			return
+		}
+		http.SetCookie(w, &http.Cookie{
+			Name:    "Profile",
+			Value:   encoded,
+			Path:    "/",
+			Expires: p.Token.Expiry,
+		})
+		http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
+	case nil:
+		encoded, err := sCookie.Encode("Id", p.Id)
+		if err != nil {
+			log.Print(err)
+			http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
+			return
+		}
+		http.SetCookie(w, &http.Cookie{
+			Name:    "Id",
+			Value:   encoded,
+			Path:    "/",
+			Expires: p.Token.Expiry,
+		})
+		http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
+	default:
+		log.Println(err)
 		http.Redirect(w, r, "/profileNotFound", http.StatusTemporaryRedirect)
-		return
 	}
-
-	encoded, err := sCookie.Encode("Profile", p)
-	if err != nil {
-		log.Print(err)
-		http.Redirect(w, r, "/cannotSetCookie", http.StatusTemporaryRedirect)
-		return
-	}
-	http.SetCookie(w, &http.Cookie{
-		Name:  "Profile",
-		Value: encoded,
-		Path:  "/",
-	})
-
-	http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
 }

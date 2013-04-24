@@ -7,6 +7,22 @@ import (
 	"strings"
 )
 
+func FetchProfile(p *profile.Profile) (err error) {
+	if !Connected() {
+		return ErrNotConnected
+	}
+
+	switch {
+	case p.Id != "":
+		err = c.Profile.FindId(p.Id).One(p)
+	case p.GoogleId != "":
+		err = c.Profile.Find(bson.M{"googleid": p.GoogleId}).One(p)
+	case p.Username != "":
+		err = c.Profile.Find(bson.M{"username": p.Username}).One(p)
+	}
+	return
+}
+
 func SaveProfile(p *profile.Profile) (err error) {
 	if !Connected() {
 		return ErrNotConnected
