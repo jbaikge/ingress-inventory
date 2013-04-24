@@ -7,20 +7,6 @@ import (
 	"strings"
 )
 
-func UsernameRegistered(username string) (reg bool, err error) {
-	if !Connected() {
-		return false, ErrNotConnected
-	}
-
-	n, err := c.Profile.Find(bson.M{"username": strings.ToLower(username)}).Count()
-	if err != nil {
-		return
-	}
-
-	reg = n > 0
-	return
-}
-
 func SaveProfile(p *profile.Profile) (err error) {
 	if !Connected() {
 		return ErrNotConnected
@@ -43,5 +29,19 @@ func SaveProfile(p *profile.Profile) (err error) {
 	} else {
 		err = c.Profile.Update(p.Id, p)
 	}
+	return
+}
+
+func UsernameRegistered(username string) (reg bool, err error) {
+	if !Connected() {
+		return false, ErrNotConnected
+	}
+
+	n, err := c.Profile.Find(bson.M{"username": strings.ToLower(username)}).Count()
+	if err != nil {
+		return
+	}
+
+	reg = n > 0
 	return
 }
