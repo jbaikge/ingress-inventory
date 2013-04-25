@@ -15,7 +15,7 @@ func AuthWrapper(f AuthFunc) func(http.ResponseWriter, *http.Request) {
 
 		cookie, err := r.Cookie("Id")
 		if err != nil {
-			// "Named cookie not present"
+			log.Printf("AuthWrapper: %s", err) // "Named cookie not present"
 			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
