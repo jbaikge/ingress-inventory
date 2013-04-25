@@ -98,10 +98,9 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		http.SetCookie(w, &http.Cookie{
-			Name:    "Profile",
-			Value:   encoded,
-			Path:    "/",
-			Expires: p.Token.Expiry,
+			Name:  "Profile",
+			Value: encoded,
+			Path:  "/",
 		})
 		http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
 	case nil:
@@ -112,12 +111,11 @@ func HandleLoginOAuth(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		http.SetCookie(w, &http.Cookie{
-			Name:    "Id",
-			Value:   encoded,
-			Path:    "/",
-			Expires: p.Token.Expiry,
+			Name:  "Id",
+			Value: encoded,
+			Path:  "/",
 		})
-		http.Redirect(w, r, "/setup", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	default:
 		log.Println(err)
 		http.Redirect(w, r, "/profileNotFound", http.StatusTemporaryRedirect)
