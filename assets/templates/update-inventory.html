@@ -4,24 +4,69 @@
 		<fieldset>
 			<legend>Update Inventory</legend>
 			<div class="row-fluid">
-				<div span="span12">
-					<label for="AP">AP</label>
-					<input name="AP" type="number" min="0">
+				<div class="control-group controls-row">
+					<label class="span2" for="AP">AP</label>
+					<input class="span2" name="AP" type="number" min="0" value="{{$state.AP}}">
 				</div>
-				<div class="controls controls-row">
-					<span class="span2">Resonators</span>
+				<div class="control-group controls-row">
+					<label class="span2">Resonators</label>
 {{range $i, $count := $state.Resonators}}
-					<input class="span1" type="text" value="{{$count}}">
+					<input class="span1 L{{add $i 1}}" name="Resonators.{{$i}}" type="number" min="0" value="{{$count}}">
 {{end}}
+					<span class="span1">0</span>
+					<span class="span1">+/-0</span>
+				</div>
+				<div class="control-group controls-row">
+					<label class="span2">XMPs</label>
+{{range $i, $count := $state.XMPs}}
+					<input class="span1 L{{add $i 1}}" name="XMPs{{$i}}" type="number" min="0" value="{{$count}}">
+{{end}}
+					<span class="span1">0</span>
+					<span class="span1">+/-0</span>
+				</div>
+				<div class="control-group controls-row">
+					<label class="span2">Power Cubes</label>
+{{range $i, $count := $state.PowerCubes}}
+					<input class="span1 L{{add $i 1}}" name="PowerCubes.{{$i}}" type="number" min="0" value="{{$count}}">
+{{end}}
+					<span class="span1">0</span>
+					<span class="span1">+/-0</span>
+				</div>
+				<div class="control-group controls-row">
+					<label class="span2">Mods</label>
+{{range $i, $count := $state.Mods}}
+					<input class="span1" name="Mods.{{$i}}" type="number" min="0" value="{{$count}}">
+{{end}}
+					<span class="span5"><!-- Can't do offsetN within control-rows--></span>
+					<span class="span1">0</span>
+					<span class="span1">+/-0</span>
+				</div>
+				<div class="control-group controls-row">
+					<label class="span2">Portal Keys</label>
+					<input class="span8" type="text" value="0">
+					<span class="span1">0</span>
+					<span class="span1">+/-0</span>
 				</div>
 			</div>
-
-					<button type="submit" class="btn btn-primary">Save changes</button>
-					<button type="button" class="btn">Cancel</button>
-				</div>
+			<div class="row-fluid">
+				<button type="submit" class="span2 offset4 btn btn-primary">Save changes</button>
+				<button type="button" class="span2 btn">Cancel</button>
 			</div>
-
-
 		</fieldset>
 	</form>
+	<script>
+	/* Some JavaScript for Portal Keys later
+	var result = 5
+	try {
+		/[\d*+-/()]/
+		resut = eval("1+2")
+	} catch (e) {
+		if (e instanceof SyntaxError) {
+
+		} else {
+			console.log(e.message)
+		}
+	}
+	*/
+	</script>
 {{template "Footer" .}}
