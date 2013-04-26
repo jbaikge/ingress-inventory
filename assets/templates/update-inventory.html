@@ -1,73 +1,69 @@
 {{template "Header" .}}
+<div class="container">
 {{$state := .Profile.Inventory.CurrentState}}
 	<form method="post" action="/inventory/update">
 		<fieldset>
 			<legend>Update Inventory</legend>
-			<div class="row-fluid control-group">
-				<label class="span2" for="Time">Entry Date</label>
-				<div class="span2">
-					<input class="span12" name="Time" type="datetime-local" value="{{$state.Time.Format "2006-01-02T15:04"}}">
-				</div>
-			</div>
-			<div class="row-fluid control-group">
-				<label class="span2" for="AP">AP</label>
-				<div class="span2">
-					<div class="input-prepend">
-						<span class="add-on"></span>
-						<input class="span12" name="AP" type="number" min="0" value="{{$state.AP}}">
+			<div class="row">
+				<div class="control-group controls-row">
+					<label class="control-label span2" for="Time">Entry Date</label>
+					<div class="controls">
+						<input class="span3" name="Time" type="datetime-local" value="{{$state.Time.Format "2006-01-02T15:04"}}">
 					</div>
 				</div>
-			</div>
-			<div class="row-fluid control-group">
-				<div class="span2">Resonators</div>
+				<div class="control-group controls-row">
+					<label class="span2" for="AP">Action Points</label>
+					<div class="controls">
+						<input class="span3 L1" name="AP" type="number" min="0" value="{{$state.AP}}">
+					</div>
+				</div>
+				<div class="control-group controls-row">
+					<div class="span2">Resonators</div>
+					<div class="controls">
 {{range $i, $count := $state.Resonators}}
-				<div class="span1 input-prepend">
-					<span class="add-on L{{add $i 1}}"></span>
-					<input class="span9" name="Resonators.{{$i}}" type="number" min="0" value="{{$count}}">
-				</div>
+						<input class="span1 L{{add $i 1}}" name="Resonators.{{$i}}" type="number" min="0" value="{{$count}}">
 {{end}}
-				<div class="span2">0/0</div>
-			</div>
-			<div class="row-fluid control-group">
-				<div class="span2">XMPs</div>
+					</div>
+					<div class="span2">0/0</div>
+				</div>
+				<div class="control-group controls-row">
+					<div class="span2">XMPs</div>
+					<div class="controls">
 {{range $i, $count := $state.XMPs}}
-				<div class="span1 input-prepend">
-					<span class="add-on L{{add $i 1}}"></span>
-					<input class="span9" name="XMPs.{{$i}}" type="number" min="0" value="{{$count}}">
-				</div>
+						<input class="span1 L{{add $i 1}}" name="XMPs.{{$i}}" type="number" min="0" value="{{$count}}">
 {{end}}
-				<div class="span2">0/0</div>
-			</div>
-			<div class="row-fluid control-group">
-				<div class="span2">Power Cubes</div>
+					</div>
+					<div class="span2">0/0</div>
+				</div>
+				<div class="control-group controls-row">
+					<div class="span2">Power Cubes</div>
+					<div class="controls">
 {{range $i, $count := $state.PowerCubes}}
-				<div class="span1 input-prepend">
-					<span class="add-on L{{add $i 1}}"></span>
-					<input class="span9" name="PowerCubes.{{$i}}" type="number" min="0" value="{{$count}}">
-				</div>
+						<input class="span1 L{{add $i 1}}" name="PowerCubes.{{$i}}" type="number" min="0" value="{{$count}}">
 {{end}}
-				<div class="span2">0/0</div>
-			</div>
-			<div class="row-fluid control-group">
-				<div class="span2">Mods</div>
+					</div>
+					<div class="span2">0/0</div>
+				</div>
+				<div class="control-group controls-row">
+					<div class="span2">Mods</div>
+					<div class="controls">
 {{range $i, $count := $state.Mods}}
-				<div class="span1 input-prepend">
-					<span class="add-on"></span>
-					<input class="span9" name="Mods.{{$i}}" type="number" min="0" value="{{$count}}">
-				</div>
+						<input class="span1" name="Mods.{{$i}}" type="number" min="0" value="{{$count}}">
 {{end}}
-				<div class="span2 offset5">0/0</div>
-			</div>
-			<div class="row-fluid control-group">
-				<div class="span2">Portal Keys</div>
-				<div class="span8">
-					<input class="span12" type="text" value="0">
+					</div>
+					<div class="span2 offset5">0/0</div>
 				</div>
-				<div class="span2">0/0</div>
-			</div>
-			<div class="row-fluid control-group">
-				<button type="submit" class="span2 offset4 btn btn-primary">Save changes</button>
-				<button type="button" class="span2 btn">Cancel</button>
+				<div class="control-group controls-row">
+					<div class="span2">Portal Keys</div>
+					<div class="controls">
+						<input class="span8" type="text" value="0">
+					</div>
+					<div class="span2">0/0</div>
+				</div>
+				<div class="controls-row controls">
+					<button type="submit" class="span2 offset4 btn btn-primary">Save changes</button>
+					<button type="button" class="span2 btn">Cancel</button>
+				</div>
 			</div>
 		</fieldset>
 	</form>
@@ -86,4 +82,5 @@
 	}
 	*/
 	</script>
+</div>
 {{template "Footer" .}}
