@@ -5,6 +5,10 @@
 			<legend>Update Inventory</legend>
 			<div class="row-fluid">
 				<div class="control-group controls-row">
+					<label class="span2" for="Time">Entry Date</label>
+					<input class="span2" name="Time" type="datetime-local" value="{{$state.Time.Format "2006-01-02T15:04"}}">
+				</div>
+				<div class="control-group controls-row">
 					<label class="span2" for="AP">AP</label>
 					<input class="span2" name="AP" type="number" min="0" value="{{$state.AP}}">
 				</div>
