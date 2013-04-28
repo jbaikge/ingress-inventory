@@ -1,7 +1,7 @@
 {{template "Header" .}}
 <div class="container">
 {{$state := .Profile.Inventory.CurrentState}}
-	<form method="post" action="/inventory/save">
+	<form method="post" action="/inventory/save" id="InventoryForm">
 		<fieldset>
 			<legend>Update Inventory</legend>
 			<div class="row">
@@ -21,7 +21,7 @@
 					<div class="span2">Resonators</div>
 					<div class="controls">
 {{range $i, $count := $state.Resonators}}
-						<input class="span1 L{{add $i 1}}" name="Resonators.{{$i}}" type="number" min="0" value="{{$count}}">
+						<input class="span1 L{{add $i 1}}" name="Resonators" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
 					<div class="span2">0/0</div>
@@ -30,7 +30,7 @@
 					<div class="span2">XMPs</div>
 					<div class="controls">
 {{range $i, $count := $state.XMPs}}
-						<input class="span1 L{{add $i 1}}" name="XMPs.{{$i}}" type="number" min="0" value="{{$count}}">
+						<input class="span1 L{{add $i 1}}" name="XMPs" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
 					<div class="span2">0/0</div>
@@ -39,7 +39,7 @@
 					<div class="span2">Power Cubes</div>
 					<div class="controls">
 {{range $i, $count := $state.PowerCubes}}
-						<input class="span1 L{{add $i 1}}" name="PowerCubes.{{$i}}" type="number" min="0" value="{{$count}}">
+						<input class="span1 L{{add $i 1}}" name="PowerCubes" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
 					<div class="span2">0/0</div>
@@ -48,7 +48,7 @@
 					<div class="span2">Mods</div>
 					<div class="controls">
 {{range $i, $count := $state.Mods}}
-						<input class="span1" name="Mods.{{$i}}" type="number" min="0" value="{{$count}}">
+						<input class="span1" name="Mods" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
 					<div class="span2 offset5">0/0</div>
@@ -68,6 +68,34 @@
 		</fieldset>
 	</form>
 	<script>
+	$(function() {
+		$("#InventoryForm").submit(function() {
+			var self = $(this)
+			if (validateTime(self.find("input[name=Time]")))
+			return false
+		})
+	})
+	var validateTime = function(e) {
+		var fmt = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+		var v = e.val()
+		if (!fmt.test(v)) {
+			setError(e, "Invalid format. Expect: yyyy-mm-ddThh:mm")
+			return false
+		}
+		console.log(e.val())
+	}
+	var setError = function(e, err) {
+		var sib
+		var sibs = e.siblings('.err')
+		if (sibs.length == 0) {
+			sib = $('<span class="err inline-help"></span>')
+			sib.insertAfter(e)
+		} else {
+			sib = $(sibs[0])
+		}
+		sib.text(err)
+		e.parents(".control-group").addClass("error")
+	}
 	/* Some JavaScript for Portal Keys later
 	var result = 5
 	try {
