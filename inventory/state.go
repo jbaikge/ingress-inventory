@@ -22,7 +22,7 @@ type Resonators []int
 
 type XMPs []int
 
-type Mods []Rarity
+type Mods []int
 
 type Rarity int
 
