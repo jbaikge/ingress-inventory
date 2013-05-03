@@ -12,7 +12,7 @@ import (
 
 var (
 	inventoryDecoder *schema.Decoder
-	timeLayout       = time.RFC1123
+	timeLayout       = time.RFC3339
 )
 
 func init() {
