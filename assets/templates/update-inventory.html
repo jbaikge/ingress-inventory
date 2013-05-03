@@ -18,41 +18,41 @@
 						<input class="span3 L1" name="AP" type="number" min="0" value="{{$state.AP}}">
 					</div>
 				</div>
-				<div class="control-group controls-row">
+				<div class="control-group controls-row resonators">
 					<div class="span2">Resonators</div>
 					<div class="controls">
 {{range $i, $count := $state.Resonators}}
 						<input class="span1 L{{add $i 1}}" name="Resonators" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
-					<div class="span2">0/0</div>
+					<div class="span2"><span class="row-total">0</span>/0</div>
 				</div>
-				<div class="control-group controls-row">
+				<div class="control-group controls-row xmps">
 					<div class="span2">XMPs</div>
 					<div class="controls">
 {{range $i, $count := $state.XMPs}}
 						<input class="span1 L{{add $i 1}}" name="XMPs" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
-					<div class="span2">0/0</div>
+					<div class="span2"><span class="row-total">0</span>/0</div>
 				</div>
-				<div class="control-group controls-row">
+				<div class="control-group controls-row powercubes">
 					<div class="span2">Power Cubes</div>
 					<div class="controls">
 {{range $i, $count := $state.PowerCubes}}
 						<input class="span1 L{{add $i 1}}" name="PowerCubes" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
-					<div class="span2">0/0</div>
+					<div class="span2"><span class="row-total">0</span>/0</div>
 				</div>
-				<div class="control-group controls-row">
+				<div class="control-group controls-row mods">
 					<div class="span2">Mods</div>
 					<div class="controls">
 {{range $i, $count := $state.Mods}}
 						<input class="span1" name="Mods" type="number" min="0" value="{{$i}}">
 {{end}}
 					</div>
-					<div class="span2 offset5">0/0</div>
+					<div class="span2 offset5"><span class="row-total">0</span>/0</div>
 				</div>
 				<div class="control-group controls-row">
 					<div class="span2">
@@ -63,7 +63,7 @@
 						<input class="span8" id="PortalKeyCalc" type="text" value="0">
 						<input type="hidden" name="PortalKeys" value="0">
 					</div>
-					<div class="span2">0/0</div>
+					<div class="span2"><span id="row-total">0</span>/0</div>
 				</div>
 				<div class="controls-row controls">
 					<button type="submit" class="span2 offset4 btn btn-primary">Save changes</button>
