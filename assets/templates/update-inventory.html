@@ -8,7 +8,8 @@
 				<div class="control-group controls-row">
 					<label class="control-label span2" for="Time">Entry Date</label>
 					<div class="controls">
-						<input class="span3" name="Time" type="datetime-local" value="{{$state.Time.Format "2006-01-02T15:04"}}">
+						<input class="span3" id="EntryTime" type="datetime-local" value="{{$state.Time.Format "2006-01-02T15:04"}}">
+						<input type="hidden" name="Time" value="{{$state.Time}}">
 					</div>
 				</div>
 				<div class="control-group controls-row">
