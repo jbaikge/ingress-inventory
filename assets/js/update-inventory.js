@@ -1,5 +1,15 @@
 $(function() {
-	$("#InventoryForm input[name=Timezone]").val()
+	rows = [
+		$("#InventoryForm .resonators input"),
+		$("#InventoryForm .xmps input"),
+		$("#InventoryForm .powercubes input"),
+		$("#InventoryForm .mods input")
+	]
+	for (var i = 0; i < rows.length; i++) {
+		rows[i].each(Inventory.copyValue).change(Inventory.updateTotal).first().trigger("change")
+	}
+})
+$(function() {
 	$("#InventoryForm").submit(function() {
 		var self = $(this)
 		switch (false) {
@@ -29,7 +39,7 @@ var Inventory = {
 	},
 	setError: function(e, err) {
 		var group = e.parents(".control-group")
-		var errNode = group.find('.err')
+		var errNode = group.find(".err")
 		if (errNode.length == 0) {
 			errNode = $('<span class="err help-inline"></span>')
 			errNode.insertAfter(e)
@@ -39,8 +49,11 @@ var Inventory = {
 	},
 	clearError: function(e) {
 		var group = e.parents(".control-group")
-		group.find('.err').text("")
+		group.find(".err").text("")
 		group.removeClass("error")
+	},
+	copyValue: function() {
+		$(this).data("val", $(this).val())
 	},
 	validateTime: function(from, to) {
 		var v = from.val()
@@ -70,6 +83,19 @@ var Inventory = {
 				console.log(e.message)
 			}
 		}
-		return result
+		to.val(result)
+		disp.text(result)
+		return true
+	},
+	rowTotal: function(row) {
+		var total = 0
+		row.find("input").each(function() {
+			total += parseInt($(this).data("val"))
+		})
+		row.find(".row-total").text(total)
+	},
+	updateTotal: function() {
+		$(this).data("val", $(this).val())
+		Inventory.rowTotal($(this).parents(".control-group"))
 	}
 }
