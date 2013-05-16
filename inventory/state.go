@@ -5,16 +5,14 @@ import (
 )
 
 type State struct {
-	Time time.Time
-	AP   int
-	Mods
-	PortalKeys
-	PowerCubes
-	Resonators
-	XMPs
+	Time       time.Time
+	AP         int
+	Mods       Mods
+	PortalKeys int
+	PowerCubes PowerCubes
+	Resonators Resonators
+	XMPs       XMPs
 }
-
-type PortalKeys int
 
 type PowerCubes []int
 
@@ -22,15 +20,7 @@ type Resonators []int
 
 type XMPs []int
 
-type Mods []int
-
-type Rarity int
-
-const (
-	VeryCommon Rarity = iota
-	Rare
-	VeryRare
-)
+type Mods RareItems
 
 const (
 	NumMod       = VeryRare + 1
@@ -46,7 +36,7 @@ func NewState() State {
 		Time:       time.Now(),
 		PowerCubes: make(PowerCubes, NumPowerCube),
 		Resonators: make(Resonators, NumResonator),
-		Mods:       make(Mods, NumMod),
+		Mods:       Mods(NewRareItems()),
 		XMPs:       make(XMPs, NumXMP),
 	}
 }
