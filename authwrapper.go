@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/jbaikge/ingress-inventory/parser"
-	"labix.org/v2/mgo/bson"
 	"log"
 	"net/http"
 )
@@ -20,11 +19,11 @@ func AuthWrapper(f AuthFunc) func(http.ResponseWriter, *http.Request) {
 			return
 		}
 
-		var id bson.ObjectId
-		if err = sCookie.Decode(cookie.Name, cookie.Value, &id); err != nil {
+		if err = sCookie.Decode(cookie.Name, cookie.Value, &ctx.Profile.Id); err != nil {
 			log.Print(err)
 			// TODO: redirect to a 500 page or clear cookies and bounce to /
 		}
+		log.Printf("Cookie ID: %s", ctx.Profile.Id)
 		// TODO: use id to fetch ctx.Profile
 
 		f(w, r, ctx)
