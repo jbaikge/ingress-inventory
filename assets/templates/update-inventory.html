@@ -49,7 +49,7 @@
 					<div class="span2">Mods</div>
 					<div class="controls">
 {{range $i, $count := $state.Mods}}
-						<input class="span1" name="Mods" type="number" min="0" value="{{$i}}">
+						<input class="span1" name="Mods.{{$i}}" {{if $i.Enabled}}type="number" min="0" value="{{$i}}"{{else}}type="hidden" value="0"{{end}}>
 {{end}}
 					</div>
 					<div class="span2 offset5"><span class="row-total">0</span>/0</div>
@@ -60,8 +60,8 @@
 						<div class="err help-block"></div>
 					</div>
 					<div class="controls">
-						<input class="span8" id="PortalKeyCalc" type="text" value="0">
-						<input type="hidden" name="PortalKeys" value="0">
+						<input class="span8" id="PortalKeyCalc" type="text" value="{{$state.PortalKeys}}">
+						<input type="hidden" name="PortalKeys" value="1">
 					</div>
 					<div class="span2"><span id="row-total">0</span>/0</div>
 				</div>
