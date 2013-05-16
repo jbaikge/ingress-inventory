@@ -1,27 +1,22 @@
-$(function() {
-	rows = [
-		$("#InventoryForm .resonators input"),
-		$("#InventoryForm .xmps input"),
-		$("#InventoryForm .powercubes input"),
-		$("#InventoryForm .mods input")
-	]
-	for (var i = 0; i < rows.length; i++) {
-		rows[i].each(Inventory.copyValue).change(Inventory.updateTotal).first().trigger("change")
-	}
-})
-$(function() {
-	$("#InventoryForm").submit(function() {
-		var self = $(this)
-		switch (false) {
-		case Inventory.validateTime(self.find("#EntryTime"), self.find("input[name=Time]")):
-			return false
-		}
-		return true
-	})
-})
 var Inventory = {
 	PKWhitelist: /^[\d*+-\/()]+$/,
 	TimeFmt: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+	init: function() {
+		rows = [
+			$("#InventoryForm .resonators input"),
+			$("#InventoryForm .xmps input"),
+			$("#InventoryForm .powercubes input"),
+			$("#InventoryForm .mods input")
+		]
+		for (var i = 0; i < rows.length; i++) {
+			rows[i].each(Inventory.copyValue).change(Inventory.updateTotal).first().trigger("change")
+		}
+		$("#PortalKeyCalc").keyup(function() {
+			console.log($(this).val())
+			Inventory.calculatePKs($(this), $("input[name=PortalKeys]"), $("#PortalKeyDisp"))
+		})
+		$("#InventoryForm").submit(Inventory.submitListener)
+	},
 	toRFC3339: function(d) {
 		d += ":00"
 		var t = new Date()
@@ -66,6 +61,10 @@ var Inventory = {
 	},
 	calculatePKs: function(from, to, disp) {
 		var v = from.val()
+		if (v == "") {
+			disp.text("0")
+			return true
+		}
 		if (!Inventory.PKWhitelist.test(v)) {
 			Inventory.setError(from, "Invalid character(s). Only numbers and +, -, *, /, (, and ) allowed.")
 			return false
@@ -94,8 +93,18 @@ var Inventory = {
 		})
 		row.find(".row-total").text(total)
 	},
+	submitListener: function() {
+		var self = $(this)
+		switch (false) {
+		case Inventory.validateTime(self.find("#EntryTime"), self.find("input[name=Time]")):
+			return false
+		}
+		return true
+	},
 	updateTotal: function() {
 		$(this).data("val", $(this).val())
 		Inventory.rowTotal($(this).parents(".control-group"))
 	}
 }
+
+$(Inventory.init)
