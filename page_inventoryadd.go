@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gorilla/schema"
 	"github.com/jbaikge/ingress-inventory/inventory"
+	"github.com/jbaikge/ingress-inventory/mongo"
 	"github.com/jbaikge/ingress-inventory/parser"
 	"log"
 	"net/http"
@@ -46,7 +47,10 @@ func HandleInventorySave(w http.ResponseWriter, r *http.Request, ctx *parser.Con
 			log.Printf("%14s: %s", f, e)
 		}
 	}
-	log.Printf("%+v", s)
+	log.Printf("%+v\n%+v", ctx.Profile, s)
+	if err := mongo.AddInventory(ctx.Profile.Id, &s); err != nil {
+		log.Println(err)
+	}
 	http.Redirect(w, r, "/inventory/update", http.StatusTemporaryRedirect)
 }
 

@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"github.com/jbaikge/ingress-inventory/inventory"
-	"github.com/jbaikge/ingress-inventory/profile"
 	"labix.org/v2/mgo/bson"
 )
 
