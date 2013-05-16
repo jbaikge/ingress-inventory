@@ -16,7 +16,7 @@ $(function() {
 		case Inventory.validateTime(self.find("#EntryTime"), self.find("input[name=Time]")):
 			return false
 		}
-		return false
+		return true
 	})
 })
 var Inventory = {
