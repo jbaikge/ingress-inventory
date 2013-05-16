@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"strconv"
 	"time"
 )
 
@@ -20,6 +21,8 @@ func init() {
 	router.HandleFunc("/inventory/save", AuthWrapper(HandleInventorySave))
 	inventoryDecoder = schema.NewDecoder()
 	inventoryDecoder.RegisterConverter(time.Time{}, convertDatetime)
+	inventoryDecoder.RegisterConverter(inventory.Rarity(0), convertRarity)
+	inventoryDecoder.RegisterConverter(inventory.Mods{}, convertRareItems)
 }
 
 func HandleInventoryUpdate(w http.ResponseWriter, r *http.Request, ctx *parser.Context) {
@@ -55,5 +58,20 @@ func convertDatetime(value string) reflect.Value {
 		return reflect.ValueOf(v)
 	}
 	log.Printf("Could not parse as time: '%s' using '%s'", value, timeLayout)
+	return reflect.Value{}
+}
+
+func convertRarity(value string) reflect.Value {
+	if v, err := strconv.ParseInt(value, 10, 0); err == nil {
+		return reflect.ValueOf(inventory.Rarity(v))
+	}
+	return reflect.Value{}
+}
+
+func convertRareItems(value string) reflect.Value {
+	log.Print(value)
+	if v, err := strconv.ParseInt(value, 10, 0); err == nil {
+		return reflect.ValueOf(inventory.Mods{0: int(v)})
+	}
 	return reflect.Value{}
 }
