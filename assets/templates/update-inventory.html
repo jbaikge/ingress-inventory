@@ -48,9 +48,9 @@
 				<div class="control-group controls-row mods">
 					<div class="span2">Mods</div>
 					<div class="controls">
-{{range $i, $count := $state.Mods}}
-						<input class="span1" name="Mods.{{$i}}" {{if $i.Enabled}}type="number" min="0" value="{{$i}}"{{else}}type="hidden" value="0"{{end}}>
-{{end}}
+						<input class="span1" name="Mods.VeryCommon" type="number" min="0" value="{{$state.Mods.VeryCommon}}">
+						<input class="span1" name="Mods.Rare" type="number" min="0" value="{{$state.Mods.Rare}}">
+						<input class="span1" name="Mods.VeryRare" type="number" min="0" value="{{$state.Mods.VeryRare}}">
 					</div>
 					<div class="span2 offset5"><span class="row-total">0</span>/0</div>
 				</div>

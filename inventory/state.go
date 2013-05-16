@@ -7,23 +7,14 @@ import (
 type State struct {
 	Time       time.Time
 	AP         int
-	Mods       Mods
+	Mods       RareItems
 	PortalKeys int
-	PowerCubes PowerCubes
-	Resonators Resonators
-	XMPs       XMPs
+	PowerCubes []int
+	Resonators []int
+	XMPs       []int
 }
 
-type PowerCubes []int
-
-type Resonators []int
-
-type XMPs []int
-
-type Mods RareItems
-
 const (
-	NumMod       = VeryRare + 1
 	NumPowerCube = 8
 	NumResonator = 8
 	NumXMP       = 8
@@ -34,10 +25,10 @@ var Levels = []int{1e4, 2e4, 4e4, 7e4, 15e4, 3e5, 6e5, 12e5}
 func NewState() State {
 	return State{
 		Time:       time.Now(),
-		PowerCubes: make(PowerCubes, NumPowerCube),
-		Resonators: make(Resonators, NumResonator),
-		Mods:       Mods(NewRareItems()),
-		XMPs:       make(XMPs, NumXMP),
+		PowerCubes: make([]int, NumPowerCube),
+		Resonators: make([]int, NumResonator),
+		Mods:       RareItems{},
+		XMPs:       make([]int, NumXMP),
 	}
 }
 
